@@ -1,0 +1,19 @@
+name: K6 Load Testing Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run K6 test
+        uses: grafana/k6-action@v0.2.0
+        with:
+          filename: k6-script.js
