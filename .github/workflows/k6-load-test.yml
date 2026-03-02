@@ -19,4 +19,4 @@ jobs:
           filename: k6-script.js
           cloud: true
         env:
-          K6_CLOUD_TOKEN: ${{ secrets.K6_CLOUD_TOKEN }}
+          run: ${{ secrets.K6_CLOUD_TOKEN }}
