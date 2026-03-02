@@ -2,8 +2,11 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export const options = {
-  vus: 20,          // 20 usuarios virtuales
-  duration: '30s',  // durante 30 segundos
+  stages: [
+    { duration: '30s', target: 20 }, // subida gradual
+    { duration: '1m', target: 50 },  // carga estable
+    { duration: '30s', target: 0 },  // bajada
+  ],
 };
 
 const BASE_URL = 'https://server-2aa6.onrender.com';
