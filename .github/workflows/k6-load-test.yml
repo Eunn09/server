@@ -13,7 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run K6 test
+      - name: Run K6 test in Grafana Cloud
         uses: grafana/k6-action@v0.2.0
         with:
           filename: k6-script.js
+          cloud: true
+        env:
+          K6_CLOUD_TOKEN: ${{ secrets.K6_CLOUD_TOKEN }}
