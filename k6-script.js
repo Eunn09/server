@@ -6,33 +6,36 @@ export const options = {
   duration: '30s',  // durante 30 segundos
 };
 
+const BASE_URL = 'https://server-2aa6.onrender.com';
+
 export default function () {
 
-  const loginPayload = JSON.stringify({
-    email: 'usuario@correo.com',
-    password: '123456'
-  });
+  // Endpoint 1: Obtener registros ordenados
+  const telemetryRes = http.get(`${BASE_URL}/api/telemetry`);
 
-  const params = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  // Endpoint 1: Login
-  const loginRes = http.post('https://server-2aa6.onrender.com/api/telemetry', loginPayload, params);
-
-  check(loginRes, {
-    'login status 200': (r) => r.status === 200,
+  check(telemetryRes, {
+    'telemetry status 200': (r) => r.status === 200,
+    'telemetry response time < 1000ms': (r) => r.timings.duration < 1000,
   });
 
   sleep(1);
 
-  // Endpoint 2: Obtener productos
-  const productsRes = http.get('https://server-2aa6.onrender.com/api/update');
+  // Endpoint 2: Obtener contador total
+  const countRes = http.get(`${BASE_URL}/api/telemetry/count`);
 
-  check(productsRes, {
-    'productos status 200': (r) => r.status === 200,
+  check(countRes, {
+    'count status 200': (r) => r.status === 200,
+    'count response time < 1000ms': (r) => r.timings.duration < 1000,
+  });
+
+  sleep(1);
+
+  // Endpoint 3: Obtener intervalo dinámico
+  const updateRes = http.get(`${BASE_URL}/api/update`);
+
+  check(updateRes, {
+    'update status 200': (r) => r.status === 200,
+    'update has interval': (r) => JSON.parse(r.body).update_interval !== undefined,
   });
 
   sleep(1);
