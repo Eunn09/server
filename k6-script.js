@@ -3,9 +3,9 @@ import { check, sleep } from 'k6';
 
 export const options = {
   stages: [
-    { duration: '30s', target: 20 }, // subida gradual
-    { duration: '1m', target: 50 },  // carga estable
-    { duration: '30s', target: 0 },  // bajada
+    { duration: '1m', target: 20 }, // subida gradual
+    { duration: '3m30s', target: 20 },  // carga estable
+    { duration: '1m', target: 0 },  // bajada
   ],
 };
 
